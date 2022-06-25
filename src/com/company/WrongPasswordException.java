@@ -1,6 +1,4 @@
 package com.company;
 
-public class WrongPasswordException extends Throwable {
-    public WrongPasswordException() {
-    }
+public class WrongPasswordException extends Exception {
 }
