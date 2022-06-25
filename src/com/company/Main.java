@@ -1,35 +1,25 @@
 package com.company;
 
 import java.io.*;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException, WrongLoginException, WrongPasswordException {
-        InputStream inputStream = System.in;
-        Reader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+    public static void main(String[] args) throws IOException{
 
-        String login = bufferedReader.readLine();
-        if (!Pattern.matches("[a-zA-Z0-9_]+", login) || login.length()>20) {
-            throw new WrongLoginException();
+        try (InputStream inputStream = System.in; Scanner scanner=new Scanner(inputStream)){
+
+            String login = scanner.nextLine();
+            String password = scanner.nextLine();
+            String confirmPassword = scanner.nextLine();
+
+            if(Passwords.access(login, password, confirmPassword)){
+                System.out.format("Вы вошли в систему под логином: %s \nПароль: %s\n", login, password);
+                System.out.println("Пароль подтвержден верно. Иначе быть и не могло...");
+            }
+        } catch (WrongLoginException | WrongPasswordException e) {
+            e.printStackTrace();
         }
-
-        String password = bufferedReader.readLine();
-        if (!Pattern.matches("[a-zA-Z0-9_]+", password) || password.length()>20) {
-            throw new WrongPasswordException();
-        }
-
-        String confirmPassword = bufferedReader.readLine();
-        if (!Objects.equals(confirmPassword, password)) {
-            throw new WrongPasswordException();
-        }
-
-        a(login, password, confirmPassword);
-    }
-
-    public static void a(String login, String password, String confirmPassword){
 
     }
 }
